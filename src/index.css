@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* FORÇA O VISUAL MESMO SE O TAILWIND FALHAR */
+
+/* 1. Remove a fonte Times New Roman e coloca uma moderna */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  
+  color: rgba(255, 255, 255, 0.87); /* Texto branco */
+  background-color: #0f172a; /* Fundo azul escuro */
+
+  /* Melhora a nitidez da fonte */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 2. Garante que o site ocupe 100% da tela (sem bordas brancas) */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Impede barras de rolagem indesejadas */
+  background-color: #0f172a;
+}
+
+/* 3. Centraliza o aplicativo React na tela */
+#root {
+  width: 100%;
+  height: 100%;
+  display: block; /* Garante que os elementos absolutos funcionem */
+}
+
+/* Animações Globais de Segurança */
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
