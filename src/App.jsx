@@ -8,7 +8,6 @@ import { Lock, Unlock, Volume2, VolumeX, ChevronRight, CheckCircle2, XCircle, Ey
 const TITULO_BLOQUEIO = "Nem tudo é para todos.\nAlgo que só nós sabemos...";
 const PERGUNTA_BLOQUEIO = "Qual foi o melhor dia deste século?";
 
-// Adicione todas as variações possíveis da senha aqui
 const SENHAS_ACEITAS = ["110107", "11012007", "11/01/07", "11/01/2007"];
 
 const DICAS_COMUNS = [
@@ -26,10 +25,10 @@ const DICAS_RARAS = [
 const ZOOM_LEVEL = 3.5; 
 
 // ==========================================
-// MEMÓRIAS (Suas Coordenadas Personalizadas)
+// MEMÓRIAS (POSIÇÕES INALTERADAS)
 // ==========================================
 const MEMORIAS = [
-  // 0. Ponta de Baixo (Início)
+  // 0. Ponta de Baixo (Centro)
   {
     id: 1,
     titulo: "Eu não esperava que um dia essa criatura cacheada fosse ser tão importante...",
@@ -43,6 +42,7 @@ const MEMORIAS = [
     respostaCorreta: 0, 
     top: 90, left: 50, 
   },
+  // --- LADO ESQUERDO ---
   // 1. Subindo Esquerda (Baixo)
   {
     id: 2,
@@ -51,20 +51,20 @@ const MEMORIAS = [
     comentario: "É sério que você não sabia dessa? Esse foi o mais importante!",
     pergunta: "Qual foi o primeiro presente que me foi dado?",
     opcoes: ["Um anel", "Uma pulseira de crochê", "Uma cesta de natal"],
-    respostaCorreta: -1, 
-    top: 75, left: 10, 
+    respostaCorreta: -1, // -1 = Resposta "pegadinha" (todas erradas ou subjetivas que levam a erro)
+    top: 75, left: 25, 
   },
   // 2. Subindo Esquerda (Meio)
   {
     id: 3,
-    titulo: "E então, a sua presença passou a ser inexplicavelmente um lar.",
+    titulo: "E então, a sua presença passou a ser inexplicavelmente um lar. E te chamar era como chegar em casa.",
     comentario: "O tênis laranja era marcante. E todos no diminutivo pra enfatizar a sua fofurice.",
     pergunta: "Qual foi o primeiro apelidinho aleatório que eu usei com você?",
     opcoes: ["Laranjinha", "Pessoinha", "Maninha"],
     respostaCorreta: 0,
-    top: 55, left: -5, 
+    top: 55, left: -3, 
   },
-  // 3. Subindo Esquerda (Alto)
+  // 3. Subindo Esquerda (Alto - Bochecha larga)
   {
     id: 4,
     titulo: "Dali pra frente, não consegui mais enxergar como as coisas poderiam ser diferentes...",
@@ -77,20 +77,20 @@ const MEMORIAS = [
       "*mordi a língua* \"Você quer um beijinho pra sarar?\""
     ],
     respostaCorreta: -1, 
-    top: 30, left: -10, 
+    top: 35, left: -9, 
   },
-  // 4. Curva Topo Esquerda (Começo da curva)
+  // 4. Curva Topo Esquerda (Exterior)
   {
     id: 5,
-    titulo: "Amável. Simplesmente amável em todos os sentidos. Afável e fácil de amar.",
+    titulo: "Amável. Simplesmente afável e fácil de amar. Não foi difícil decorar os seus gostos e o seus desgostos.",
     revelacao: "TODAS... e mais um pouco",
     comentario: "Sei que as preferências são todas duvidosas, mas não sei como provar...",
     pergunta: "Qual dessas opções te parece mais... interessante?",
     opcoes: ["Milfs", "Professores", "Pessoa mais de 7 anos mais velha"],
     respostaCorreta: -1, 
-    top: 15, left: 0, 
+    top: 18, left: 10, 
   },
-  // 5. Curva Topo Esquerda (Pico do Coração)
+  // 5. Curva Topo Esquerda (Pico)
   {
     id: 6,
     titulo: "Incrivelmente engraçada também. Um meme ambulante.",
@@ -101,10 +101,10 @@ const MEMORIAS = [
       "Engasgar com água de tanto rir na aula",
       "Todas as 193489781562 cochiladas nas aulas"
     ],
-    respostaCorreta: -2, 
-    top: 10, left: 20, 
+    respostaCorreta: -2, // -2 = Todas corretas (Sucesso)
+    top: 12, left: 32, 
   },
-  // 6. Mergulho Central (O "V" do coração)
+  // 6. Mergulho Central Esquerdo (Começo do V)
   {
     id: 7,
     titulo: "De repente, estava tendo aulas particulares sobre 8 homens dançarinos muito divos...",
@@ -116,9 +116,11 @@ const MEMORIAS = [
       "Evidências da gayzisse no Minho"
     ],
     respostaCorreta: 1, 
-    top: 30, left: 50, 
+    top: 28, left: 45, 
   },
-  // 7. Curva Topo Direita (Pico do Coração)
+  
+  // --- LADO DIREITO (ESPELHO DO ESQUERDO) ---
+  // 7. Mergulho Central Direito (Fim do V)
   {
     id: 8,
     titulo: "...e tudo começou dividindo um fone de ouvido.",
@@ -126,9 +128,9 @@ const MEMORIAS = [
     pergunta: "Será que você lembra qual foi o primeiro álbum que você me mostrou?",
     opcoes: ["SKZ-Replay", "Noeasy", "Oddinary"],
     respostaCorreta: 2, 
-    top: 10, left: 80, 
+    top: 28, left: 55, 
   },
-  // 8. Curva Topo Direita (Começo da descida)
+  // 8. Curva Topo Direita (Pico)
   {
     id: 9,
     titulo: "E não parou por aí. As músicas se estenderam para além da melodia...",
@@ -136,9 +138,9 @@ const MEMORIAS = [
     pergunta: "Qual foi a primeira fic que eu li?",
     opcoes: ["The Most Fuckable Ass", "Pink Pony Club", "When the Morning Comes"],
     respostaCorreta: 0,
-    top: 15, left: 105, 
+    top: 12, left: 68, 
   },
-  // 9. Descendo Direita (Parede lateral)
+  // 9. Curva Topo Direita (Exterior)
   {
     id: 10,
     titulo: "O que era apenas um pequeno interesse virou quase uma obsessão...",
@@ -146,9 +148,9 @@ const MEMORIAS = [
     pergunta: "Quantas fics tinham na planilha antes do ano acabar?",
     opcoes: ["O suficiente", "1982289528920", "29"],
     respostaCorreta: 2,
-    top: 30, left: 115, 
+    top: 18, left: 90, 
   },
-  // 10. Descendo Direita (Meio)
+  // 10. Descendo Direita (Alto - Bochecha larga)
   {
     id: 11,
     titulo: "Mas dentre todas as histórias, algumas conquistaram meu coraçãozinho.",
@@ -156,9 +158,9 @@ const MEMORIAS = [
     pergunta: "Qual foi a minha favorita EVER de toda planilha?",
     opcoes: ["When the morning comes", "So sweet like a chocolate", "Wanting and Knowing"],
     respostaCorreta: 0,
-    top: 55, left: 110, 
+    top: 35, left: 109, 
   },
-  // 11. Descendo Direita (Baixo)
+  // 11. Descendo Direita (Meio)
   {
     id: 12,
     titulo: "Mas ainda há muita história a ser conhecida, não acha?",
@@ -166,9 +168,9 @@ const MEMORIAS = [
     pergunta: "Eu espero permanecer na sua.",
     opcoes: ["Hoje", "Amanhã", "Sempre."],
     respostaCorreta: 2,
-    top: 75, left: 95, 
+    top: 55, left: 103, 
   },
-  // 12. Fechando o ciclo (Penúltimo ponto visual, fecha no 0)
+  // 12. Descendo Direita (Baixo)
   {
     id: 13,
     titulo: "Ainda que eu não seja a mais presente, saiba que eu sempre estarei aqui.",
@@ -176,9 +178,9 @@ const MEMORIAS = [
     pergunta: "Para quê?",
     opcoes: ["Pra te encher o saco", "Pra te ouvir e apoiar", "E fazer você rir."],
     respostaCorreta: -2, 
-    top: 85, left: 80, 
+    top: 75, left: 75, 
   },
-  // 13. CENTRAL (O FIM - ESTRELA VERMELHA) - ID Lógico 14
+  // 13. CENTRAL (O FIM - ESTRELA VERMELHA)
   {
     id: 14,
     titulo: "Muito obrigada pelos últimos 4 anos.",
@@ -186,7 +188,7 @@ const MEMORIAS = [
     pergunta: "Você é",
     opcoes: ["A melhor coisa que já aconteceu na minha vida", "Todos os elogios da língua portuguesa", "Viada"],
     respostaCorreta: 2,
-    top: 50, left: 50, // NO CENTRO
+    top: 50, left: 50, 
   }
 ];
 
@@ -210,11 +212,17 @@ export default function App() {
   const [showRedStar, setShowRedStar] = useState(false);
   const [zoomInRedStar, setZoomInRedStar] = useState(false);
   const [showFinalText, setShowFinalText] = useState(false);
+  
+  // Estado específico para o label "termine aqui" aparecer depois do zoom
+  const [showLabelTermine, setShowLabelTermine] = useState(false);
 
   // Áudios
+  // IMPORTANTE: Certifique-se que yes.mp3 e no.wav estão na pasta public
   const audioAmbient = useRef(new Audio("https://cdn.pixabay.com/audio/2022/10/05/audio_6862d6df9e.mp3")); 
   const audioUnlock = useRef(new Audio("https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-click-900.mp3")); 
   const audioClick = useRef(new Audio("https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3")); 
+  
+  // Seus arquivos de áudio
   const audioSuccess = useRef(new Audio("yes.mp3")); 
   const audioError = useRef(new Audio("no.wav")); 
 
@@ -260,8 +268,15 @@ export default function App() {
   const gerarDica = () => {
     const isRara = Math.random() < 0.4;
     let lista = isRara ? DICAS_RARAS : DICAS_COMUNS;
-    const dicaAleatoria = lista[Math.floor(Math.random() * lista.length)];
-    setDicaAtual(dicaAleatoria);
+    
+    // Tenta garantir que a dica mude
+    let novaDica = lista[Math.floor(Math.random() * lista.length)];
+    if (novaDica === dicaAtual && lista.length > 1) {
+        // Se for igual a anterior, pega a próxima (ou anterior)
+        const index = lista.indexOf(novaDica);
+        novaDica = lista[(index + 1) % lista.length];
+    }
+    setDicaAtual(novaDica);
   };
 
   const handleUnlock = (e) => {
@@ -280,7 +295,7 @@ export default function App() {
     } else {
       setErroSenha(true);
       playSound(audioError);
-      gerarDica();
+      gerarDica(); // Chama a nova lógica de dica
       setTimeout(() => setErroSenha(false), 800);
     }
   };
@@ -304,10 +319,20 @@ export default function App() {
   const verificarOpcao = (indexOpcao) => {
     const memoriaAtual = MEMORIAS[modalAberto];
     
-    if (memoriaAtual.respostaCorreta === -1 || memoriaAtual.respostaCorreta === -2) {
-      playSound(audioSuccess);
+    // Caso especial: Resposta errada forçada (-1)
+    // Toca som de ERRO (no.wav)
+    if (memoriaAtual.respostaCorreta === -1) {
+      playSound(audioError);
       setMostrarComentario(true);
       return;
+    }
+
+    // Caso especial: Todas corretas (-2)
+    // Toca som de SUCESSO (yes.mp3)
+    if (memoriaAtual.respostaCorreta === -2) {
+        playSound(audioSuccess);
+        setMostrarComentario(true);
+        return;
     }
 
     if (indexOpcao === memoriaAtual.respostaCorreta) {
@@ -344,18 +369,27 @@ export default function App() {
   };
 
   const iniciarSequenciaFinal = () => {
+    // 1. Inicia Zoom Out para ver o coração
     setTimeout(() => {
       setZoomOutFinal(true);
     }, 500);
 
+    // 2. Mostra a estrela vermelha
     setTimeout(() => {
       setShowRedStar(true);
     }, 2500);
 
+    // 3. Zoom In na estrela vermelha (Tempo reduzido conforme pedido: de 6000 para 4000)
     setTimeout(() => {
       setZoomOutFinal(false);
       setZoomInRedStar(true);
-    }, 6000);
+      
+      // 4. Mostra o label "termine aqui" APÓS o zoom (2s de duração do zoom css + um pouquinho)
+      setTimeout(() => {
+          setShowLabelTermine(true);
+      }, 2500);
+
+    }, 4000);
   };
 
   const handleRedStarClick = () => {
@@ -377,6 +411,7 @@ export default function App() {
     playSound(audioClick);
     setShowFinalText(false);
     setZoomInRedStar(false);
+    setShowLabelTermine(false); // Esconde o label ao voltar
     setZoomOutFinal(true);
   };
 
@@ -538,11 +573,12 @@ export default function App() {
             background: #ef4444;
             box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), 0 0 60px rgba(239, 68, 68, 0.4);
             animation: pulse-red 1.5s infinite;
-            width: 30px; height: 30px;
+            /* TAMANHO IGUALADO AS OUTRAS */
+            width: 20px; height: 20px;
         }
         .red-star.pulse-constellation .node-core {
             animation: pulse-red 2s infinite;
-            width: 40px; height: 40px;
+            width: 30px; height: 30px; /* Um pouco maior só quando está pulsando no coração */
         }
 
         .modal-overlay {
@@ -868,7 +904,8 @@ export default function App() {
                     >
                         <button onClick={handleRedStarClick} className="node-button">
                             <div className="node-core" />
-                            {zoomInRedStar && !showFinalText && (
+                            {/* O TEXTO "TERMINE AQUI" APARECE DEPOIS DO ZOOM */}
+                            {zoomInRedStar && showLabelTermine && !showFinalText && (
                                 <div style={{ position: 'absolute', top: '35px', left: '50%', transform: 'translateX(-50%)', width: 'max-content', pointerEvents: 'none', animation: 'soft-fade-in 1s ease-out forwards' }}>
                                     <span style={{ color: '#ef4444', fontSize: '12px', fontStyle: 'italic', textShadow: '0 0 10px rgba(239, 68, 68, 0.5)', letterSpacing: '1px' }}>
                                     termine aqui
@@ -940,6 +977,7 @@ export default function App() {
               </>
             ) : (
               <div style={{ textAlign: 'center', animation: 'pop-in 0.5s ease-out' }}>
+                  {/* Lógica condicional para mensagens de erro/acerto */}
                   {MEMORIAS[modalAberto].respostaCorreta === -1 ? (
                     <>
                       <div style={{ margin: '0 auto 20px', width: '60px', height: '60px', background: 'rgba(239, 68, 68, 0.2)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
