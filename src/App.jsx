@@ -51,7 +51,7 @@ const MEMORIAS = [
     comentario: "É sério que você não sabia dessa? Esse foi o mais importante!",
     pergunta: "Qual foi o primeiro presente que me foi dado?",
     opcoes: ["Um anel", "Uma pulseira de crochê", "Uma cesta de natal"],
-    respostaCorreta: -1, // -1 = Resposta "pegadinha" (todas erradas ou subjetivas que levam a erro)
+    respostaCorreta: -1, 
     top: 75, left: 25, 
   },
   // 2. Subindo Esquerda (Meio)
@@ -101,7 +101,7 @@ const MEMORIAS = [
       "Engasgar com água de tanto rir na aula",
       "Todas as 193489781562 cochiladas nas aulas"
     ],
-    respostaCorreta: -2, // -2 = Todas corretas (Sucesso)
+    respostaCorreta: -2, 
     top: 12, left: 32, 
   },
   // 6. Mergulho Central Esquerdo (Começo do V)
@@ -160,34 +160,29 @@ const MEMORIAS = [
     respostaCorreta: 0,
     top: 35, left: 109, 
   },
-  // 11. Descendo Direita (Meio)
+  // 11. Descendo Direita (Meio) -> MEMÓRIA SENTIMENTAL (Movida para cá)
   {
     id: 12,
-    titulo: "Mas ainda há muita história a ser conhecida, não acha?",
-    comentario: "", 
-    pergunta: "Eu espero permanecer na sua.",
-    opcoes: ["Hoje", "Amanhã", "Sempre."],
-    respostaCorreta: 2,
-    top: 55, left: 103, 
-  },
-  // 12. Descendo Direita (Baixo)
-  {
-    id: 13,
     titulo: "Ainda que eu não seja a mais presente, saiba que eu sempre estarei aqui.",
     comentario: "Está certa. Todas estão certas. Porque eu amo você.",
     pergunta: "Para quê?",
     opcoes: ["Pra te encher o saco", "Pra te ouvir e apoiar", "E fazer você rir."],
     respostaCorreta: -2, 
-    top: 75, left: 75, 
+    top: 55, left: 103, 
   },
-  // 13. CENTRAL (O FIM - ESTRELA VERMELHA)
+  // 12. Descendo Direita (Baixo - ÚLTIMA BRANCA) -> MEMÓRIA VIADA (Movida para cá)
   {
-    id: 14,
+    id: 13,
     titulo: "Muito obrigada pelos últimos 4 anos.",
-    comentario: "Você é uma das melhores coisas que já aconteceu na minha vida.",
+    comentario: "Brincadeira à parte, você também é [todos os elogios da língua portuguesa] e uma das melhores coisas que já aconteceu na minha vida.",
     pergunta: "Você é",
     opcoes: ["A melhor coisa que já aconteceu na minha vida", "Todos os elogios da língua portuguesa", "Viada"],
-    respostaCorreta: 2,
+    respostaCorreta: 2, 
+    top: 75, left: 75, 
+  },
+  // 13. CENTRAL (O FIM - ESTRELA VERMELHA) - Apenas gatilho visual
+  {
+    id: 14,
     top: 50, left: 50, 
   }
 ];
@@ -213,16 +208,12 @@ export default function App() {
   const [zoomInRedStar, setZoomInRedStar] = useState(false);
   const [showFinalText, setShowFinalText] = useState(false);
   
-  // Estado específico para o label "termine aqui" aparecer depois do zoom
   const [showLabelTermine, setShowLabelTermine] = useState(false);
 
   // Áudios
-  // IMPORTANTE: Certifique-se que yes.mp3 e no.wav estão na pasta public
   const audioAmbient = useRef(new Audio("https://cdn.pixabay.com/audio/2022/10/05/audio_6862d6df9e.mp3")); 
   const audioUnlock = useRef(new Audio("https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-click-900.mp3")); 
   const audioClick = useRef(new Audio("https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3")); 
-  
-  // Seus arquivos de áudio
   const audioSuccess = useRef(new Audio("yes.mp3")); 
   const audioError = useRef(new Audio("no.wav")); 
 
@@ -268,11 +259,8 @@ export default function App() {
   const gerarDica = () => {
     const isRara = Math.random() < 0.4;
     let lista = isRara ? DICAS_RARAS : DICAS_COMUNS;
-    
-    // Tenta garantir que a dica mude
     let novaDica = lista[Math.floor(Math.random() * lista.length)];
     if (novaDica === dicaAtual && lista.length > 1) {
-        // Se for igual a anterior, pega a próxima (ou anterior)
         const index = lista.indexOf(novaDica);
         novaDica = lista[(index + 1) % lista.length];
     }
@@ -295,12 +283,14 @@ export default function App() {
     } else {
       setErroSenha(true);
       playSound(audioError);
-      gerarDica(); // Chama a nova lógica de dica
+      gerarDica(); 
       setTimeout(() => setErroSenha(false), 800);
     }
   };
 
   const abrirMemoria = (index) => {
+    // Se clicar na vermelha (index 13), não abre modal, só se for via clique manual sem fluxo
+    // Mas a lógica principal é que ela é só visual agora
     if (index === 13) return; 
 
     playSound(audioClick);
@@ -319,16 +309,12 @@ export default function App() {
   const verificarOpcao = (indexOpcao) => {
     const memoriaAtual = MEMORIAS[modalAberto];
     
-    // Caso especial: Resposta errada forçada (-1)
-    // Toca som de ERRO (no.wav)
     if (memoriaAtual.respostaCorreta === -1) {
       playSound(audioError);
       setMostrarComentario(true);
       return;
     }
 
-    // Caso especial: Todas corretas (-2)
-    // Toca som de SUCESSO (yes.mp3)
     if (memoriaAtual.respostaCorreta === -2) {
         playSound(audioSuccess);
         setMostrarComentario(true);
@@ -351,14 +337,14 @@ export default function App() {
 
   const fecharModalEAvancar = () => {
     playSound(audioClick);
-    const isLastMemory = modalAberto === 12; 
+    const isLastWhiteStar = modalAberto === 12; // A da "Viada"
     const isCurrentLevel = modalAberto === nivelAtual;
 
     setModalAberto(false);
     
     if (isCurrentLevel && !jogoFinalizado) {
       setTimeout(() => {
-        if (isLastMemory) {
+        if (isLastWhiteStar) {
           setJogoFinalizado(true);
           iniciarSequenciaFinal();
         } else {
@@ -369,22 +355,18 @@ export default function App() {
   };
 
   const iniciarSequenciaFinal = () => {
-    // 1. Inicia Zoom Out para ver o coração
     setTimeout(() => {
       setZoomOutFinal(true);
     }, 500);
 
-    // 2. Mostra a estrela vermelha
     setTimeout(() => {
       setShowRedStar(true);
     }, 2500);
 
-    // 3. Zoom In na estrela vermelha (Tempo reduzido conforme pedido: de 6000 para 4000)
     setTimeout(() => {
       setZoomOutFinal(false);
       setZoomInRedStar(true);
       
-      // 4. Mostra o label "termine aqui" APÓS o zoom (2s de duração do zoom css + um pouquinho)
       setTimeout(() => {
           setShowLabelTermine(true);
       }, 2500);
@@ -411,11 +393,10 @@ export default function App() {
     playSound(audioClick);
     setShowFinalText(false);
     setZoomInRedStar(false);
-    setShowLabelTermine(false); // Esconde o label ao voltar
+    setShowLabelTermine(false);
     setZoomOutFinal(true);
   };
 
-  // Lógica de Câmera
   const targetStar = MEMORIAS[nivelAtual] || MEMORIAS[0];
   let currentZoom = ZOOM_LEVEL;
   let translateX = targetStar.left;
@@ -435,9 +416,6 @@ export default function App() {
     currentZoom = 0.65;
   }
 
-  // FIX: Multiplicamos por -1 apenas quando o valor é negativo e ajustamos a lógica do translate
-  // No CSS, translate(50%, 50%) move para a direita/baixo. 
-  // Queremos centralizar a estrela, então movemos o "mundo" na direção oposta da estrela.
   const transformStyle = `translate(50vw, 50vh) scale(${currentZoom}) translate(${-translateX}%, ${-translateY}%)`;
   const parallaxX = (translateX - 50) * -0.2; 
   const parallaxY = (translateY - 50) * -0.2;
@@ -479,13 +457,11 @@ export default function App() {
         
         @keyframes pop-in { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
         
-        /* POP-IN ESPECÍFICO PARA NÓS */
         @keyframes pop-in-node { 
           0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } 
           100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 
         }
 
-        /* ANIMAÇÃO DA PRIMEIRA ESTRELA SURGINDO */
         @keyframes appear-center {
             0% { transform: scale(0); opacity: 0; }
             50% { transform: scale(1.2); opacity: 0.8; }
@@ -558,7 +534,6 @@ export default function App() {
           animation: pulse-strong 1.5s infinite;
         }
         
-        /* Classe específica para a primeira estrela surgir */
         .memory-node.first-star-appear .node-core {
             animation: appear-center 2s ease-out forwards, pulse-strong 1.5s infinite 2s;
         }
@@ -573,12 +548,11 @@ export default function App() {
             background: #ef4444;
             box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), 0 0 60px rgba(239, 68, 68, 0.4);
             animation: pulse-red 1.5s infinite;
-            /* TAMANHO IGUALADO AS OUTRAS */
             width: 20px; height: 20px;
         }
         .red-star.pulse-constellation .node-core {
             animation: pulse-red 2s infinite;
-            width: 30px; height: 30px; /* Um pouco maior só quando está pulsando no coração */
+            width: 30px; height: 30px; 
         }
 
         .modal-overlay {
