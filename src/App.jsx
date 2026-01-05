@@ -211,7 +211,7 @@ export default function App() {
   const [showLabelTermine, setShowLabelTermine] = useState(false);
 
   // Áudios
-  const audioAmbient = useRef(new Audio("https://cdn.pixabay.com/audio/2022/10/05/audio_6862d6df9e.mp3")); 
+  const audioAmbient = useRef(new Audio("drone.mp3")); 
   const audioUnlock = useRef(new Audio("https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-click-900.mp3")); 
   const audioClick = useRef(new Audio("https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3")); 
   const audioSuccess = useRef(new Audio("yes.mp3")); 
