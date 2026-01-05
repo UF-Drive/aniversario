@@ -10,14 +10,12 @@ const PERGUNTA_BLOQUEIO = "Qual foi o melhor dia deste século?";
 
 const SENHAS_ACEITAS = ["110107", "11012007", "11/01/07", "11/01/2007"];
 
-const DICAS_COMUNS = [
+// Juntei as listas para garantir que sempre tenha dica nova
+const TODAS_DICAS = [
   "O maior acontecimento histórico do mundo aconteceu nesta data...",
   "É a senha do meu celular.",
   "Você não estaria aqui hoje se não fosse por esse dia.",
-  "É a minha data favorita no calendário."
-];
-
-const DICAS_RARAS = [
+  "É a minha data favorita no calendário.",
   "Hoje!",
   "Exatamente 19 anos atrás."
 ];
@@ -28,7 +26,7 @@ const ZOOM_LEVEL = 3.5;
 // MEMÓRIAS (POSIÇÕES INALTERADAS)
 // ==========================================
 const MEMORIAS = [
-  // 0. Ponta de Baixo (Centro)
+  // 0. Ponta de Baixo (Centro) - COMEÇO
   {
     id: 1,
     titulo: "Eu não esperava que um dia essa criatura cacheada fosse ser tão importante...",
@@ -42,7 +40,6 @@ const MEMORIAS = [
     respostaCorreta: 0, 
     top: 90, left: 50, 
   },
-  // --- LADO ESQUERDO ---
   // 1. Subindo Esquerda (Baixo)
   {
     id: 2,
@@ -64,7 +61,7 @@ const MEMORIAS = [
     respostaCorreta: 0,
     top: 55, left: -3, 
   },
-  // 3. Subindo Esquerda (Alto - Bochecha larga)
+  // 3. Subindo Esquerda (Alto)
   {
     id: 4,
     titulo: "Dali pra frente, não consegui mais enxergar como as coisas poderiam ser diferentes...",
@@ -160,7 +157,7 @@ const MEMORIAS = [
     respostaCorreta: 0,
     top: 35, left: 109, 
   },
-  // 11. Descendo Direita (Meio) -> MEMÓRIA SENTIMENTAL (Movida para cá)
+  // 11. Descendo Direita (Meio)
   {
     id: 12,
     titulo: "Ainda que eu não seja a mais presente, saiba que eu sempre estarei aqui.",
@@ -170,7 +167,7 @@ const MEMORIAS = [
     respostaCorreta: -2, 
     top: 55, left: 103, 
   },
-  // 12. Descendo Direita (Baixo - ÚLTIMA BRANCA) -> MEMÓRIA VIADA (Movida para cá)
+  // 12. Descendo Direita (Baixo) - ÚLTIMA BRANCA -> MEMÓRIA VIADA
   {
     id: 13,
     titulo: "Muito obrigada pelos últimos 4 anos.",
@@ -211,15 +208,16 @@ export default function App() {
   const [showLabelTermine, setShowLabelTermine] = useState(false);
 
   // Áudios
+  // Usei os nomes de arquivo que você solicitou
   const audioAmbient = useRef(new Audio("drone.mp3")); 
-  const audioUnlock = useRef(new Audio("https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-click-900.mp3")); 
-  const audioClick = useRef(new Audio("https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3")); 
+  const audioUnlock = useRef(new Audio("unlock.mp3")); 
+  const audioClick = useRef(new Audio("click.mp3")); 
   const audioSuccess = useRef(new Audio("yes.mp3")); 
   const audioError = useRef(new Audio("no.wav")); 
 
   useEffect(() => {
     audioAmbient.current.loop = true;
-    audioAmbient.current.volume = 0.4; 
+    audioAmbient.current.volume = 0.6; 
     return () => {
       audioAmbient.current.pause();
     };
@@ -256,14 +254,10 @@ export default function App() {
     delay: Math.random() * 5
   })));
 
+  // Lógica de sorteio de dica
   const gerarDica = () => {
-    const isRara = Math.random() < 0.4;
-    let lista = isRara ? DICAS_RARAS : DICAS_COMUNS;
-    let novaDica = lista[Math.floor(Math.random() * lista.length)];
-    if (novaDica === dicaAtual && lista.length > 1) {
-        const index = lista.indexOf(novaDica);
-        novaDica = lista[(index + 1) % lista.length];
-    }
+    const dicasDisponiveis = TODAS_DICAS.filter(d => d !== dicaAtual);
+    const novaDica = dicasDisponiveis[Math.floor(Math.random() * dicasDisponiveis.length)];
     setDicaAtual(novaDica);
   };
 
@@ -289,8 +283,7 @@ export default function App() {
   };
 
   const abrirMemoria = (index) => {
-    // Se clicar na vermelha (index 13), não abre modal, só se for via clique manual sem fluxo
-    // Mas a lógica principal é que ela é só visual agora
+    // A vermelha (13) só é clicável via lógica final
     if (index === 13) return; 
 
     playSound(audioClick);
@@ -337,14 +330,15 @@ export default function App() {
 
   const fecharModalEAvancar = () => {
     playSound(audioClick);
-    const isLastWhiteStar = modalAberto === 12; // A da "Viada"
+    const isViadaMemory = modalAberto === 12; // Índice 12 é a memória "Viada"
     const isCurrentLevel = modalAberto === nivelAtual;
 
     setModalAberto(false);
     
     if (isCurrentLevel && !jogoFinalizado) {
       setTimeout(() => {
-        if (isLastWhiteStar) {
+        if (isViadaMemory) {
+          // Se acabou a memória 12, fim de jogo, inicia a sequência da estrela vermelha
           setJogoFinalizado(true);
           iniciarSequenciaFinal();
         } else {
@@ -375,6 +369,7 @@ export default function App() {
   };
 
   const handleRedStarClick = () => {
+    // Se clicar durante o zoom out, vai para o zoom in
     if (zoomOutFinal) {
         playSound(audioSuccess);
         setZoomOutFinal(false);
@@ -383,8 +378,9 @@ export default function App() {
         return;
     }
 
+    // Se clicar no final (zoom in), mostra o texto
     if (zoomInRedStar && !showFinalText) {
-        playSound(audioSuccess);
+        playSound(audioUnlock); // Alterado para unlock.mp3
         setShowFinalText(true);
     }
   };
@@ -397,6 +393,7 @@ export default function App() {
     setZoomOutFinal(true);
   };
 
+  // Lógica de Câmera
   const targetStar = MEMORIAS[nivelAtual] || MEMORIAS[0];
   let currentZoom = ZOOM_LEVEL;
   let translateX = targetStar.left;
@@ -416,6 +413,7 @@ export default function App() {
     currentZoom = 0.65;
   }
 
+  // FIX: Multiplicamos por -1 para o CSS entender coordenadas negativas
   const transformStyle = `translate(50vw, 50vh) scale(${currentZoom}) translate(${-translateX}%, ${-translateY}%)`;
   const parallaxX = (translateX - 50) * -0.2; 
   const parallaxY = (translateY - 50) * -0.2;
