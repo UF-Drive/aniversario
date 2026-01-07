@@ -5,12 +5,12 @@ import { Lock, Unlock, Volume2, VolumeX, ChevronRight, CheckCircle2, XCircle, Ey
 // CONFIGURAÇÃO DOS DADOS
 // ==========================================
 
-const TITULO_BLOQUEIO = "Nem tudo é para todos.\nAlgo que só nós sabemos...";
+const TITULO_BLOQUEIO = "Nem tudo é para todos.\nDesbloqueie";
 const PERGUNTA_BLOQUEIO = "Qual foi o melhor dia deste século?";
 
 const SENHAS_ACEITAS = ["110107", "11012007", "11/01/07", "11/01/2007"];
 
-// Juntei as listas para garantir que sempre tenha dica nova
+// Juntei todas as dicas em uma única lista para garantir o sorteio sem repetição
 const TODAS_DICAS = [
   "O maior acontecimento histórico do mundo aconteceu nesta data...",
   "É a senha do meu celular.",
@@ -208,7 +208,6 @@ export default function App() {
   const [showLabelTermine, setShowLabelTermine] = useState(false);
 
   // Áudios
-  // Usei os nomes de arquivo que você solicitou
   const audioAmbient = useRef(new Audio("drone.mp3")); 
   const audioUnlock = useRef(new Audio("unlock.mp3")); 
   const audioClick = useRef(new Audio("click.mp3")); 
@@ -254,9 +253,11 @@ export default function App() {
     delay: Math.random() * 5
   })));
 
-  // Lógica de sorteio de dica
+  // Lógica de sorteio de dica CORRIGIDA
   const gerarDica = () => {
+    // Filtra para pegar apenas as dicas que são diferentes da atual
     const dicasDisponiveis = TODAS_DICAS.filter(d => d !== dicaAtual);
+    // Sorteia uma das disponíveis
     const novaDica = dicasDisponiveis[Math.floor(Math.random() * dicasDisponiveis.length)];
     setDicaAtual(novaDica);
   };
@@ -380,7 +381,7 @@ export default function App() {
 
     // Se clicar no final (zoom in), mostra o texto
     if (zoomInRedStar && !showFinalText) {
-        playSound(audioUnlock); // Alterado para unlock.mp3
+        playSound(audioUnlock); // Som correto: unlock.mp3
         setShowFinalText(true);
     }
   };
