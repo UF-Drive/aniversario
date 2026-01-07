@@ -5,7 +5,7 @@ import { Lock, Unlock, Volume2, VolumeX, ChevronRight, CheckCircle2, XCircle, Ey
 // CONFIGURAÇÃO DOS DADOS
 // ==========================================
 
-const TITULO_BLOQUEIO = "Nem tudo é para todos.\nDesbloqueie";
+const TITULO_BLOQUEIO = "Acesso restrito para\n pessoas incríveis.";
 const PERGUNTA_BLOQUEIO = "Qual foi o melhor dia deste século?";
 
 const SENHAS_ACEITAS = ["110107", "11012007", "11/01/07", "11/01/2007"];
@@ -897,9 +897,9 @@ export default function App() {
           <div className="final-card-wrapper">
               <div className="final-message">
                   <Sparkles className="text-yellow-300 mb-4" size={32} />
-                  <p>Obrigada por existir na linha do tempo da minha vida</p>
-                  <p>Espero continuar construindo constelações de memórias com você por muitos anos</p>
-                  <span className="highlight">Um feliz aniversário para a minha pessoinha favorita</span>
+                  <p>Muito obrigada por existir na linha do tempo da minha vida.</p>
+                  <p>Espero continuar construindo constelações de memórias com você por muitos anos.</p>
+                  <span className="highlight">Um feliz aniversário para a minha pessoinha favorita!</span>
                   <div className="signature">
                       <p>Com carinho,</p>
                       <p>Da sua lerdinha favorita.</p>
